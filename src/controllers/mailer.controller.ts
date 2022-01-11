@@ -10,6 +10,9 @@
 import { SERVER_ERRORS, HTTP_STATUS, Objects } from "@ecualead/server";
 import { ERRORS } from "../constants/errors.enum";
 import axios, { AxiosError, AxiosResponse } from "axios";
+import fs from "fs";
+import { basename } from "path";
+import { AuthenticationCtrl } from "@ecualead/auth";
 
 export interface IMailAttachment {
   filename: string;
@@ -20,7 +23,6 @@ export interface IMailAttachment {
 class Mails {
   private static _instance: Mails;
   private _service: string;
-  private _token: string;
 
   /**
    * Private constructor to allow singleton instance
@@ -39,9 +41,8 @@ class Mails {
     return Mails._instance;
   }
 
-  public setup(service: string, token: string) {
+  public setup(service: string) {
     this._service = service;
-    this._token = token;
   }
 
   public send(
@@ -99,7 +100,7 @@ class Mails {
       axios
         .post(`${this._service}/v1/mail/send`, bodyObj, {
           headers: {
-            Authorization: `Bearer ${this._token}`
+            Authorization: `Bearer ${AuthenticationCtrl.token}`
           }
         })
         .then((response: AxiosResponse) => {
@@ -133,6 +134,15 @@ class Mails {
           });
         });
     });
+  }
+
+  public attachmentFromFile(filepath: string, filename?: string): IMailAttachment {
+    const fileBuff = fs.readFileSync(filepath);
+    return {
+      filename: filename || basename(filepath),
+      content: fileBuff.toString("base64"),
+      encoding: "base64"
+    };
   }
 }
 
