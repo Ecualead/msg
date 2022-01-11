@@ -58,6 +58,7 @@
     "typescript": "^4.3.5"
   },
   "peerDependencies": {
+    "@ecualead/auth": "^2.1.x",
     "@ecualead/server": "^2.2.x",
     "@typegoose/typegoose": "^9.4.x",
     "axios": "0.24.x",
