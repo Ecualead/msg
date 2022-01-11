@@ -54,3 +54,9 @@ interface IMailAttachment {
   encoding?: string;
 }
 ```
+
+Attachment can be loaded using
+
+```js
+MailCtrl.attachmentFromFile(filepath: string, filename?: string): IMailAttachment;
+```
