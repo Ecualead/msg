@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## [2.0.1] - 2022-01-10
+
+- Add function to load attachment from file
+- Add auth dependency
+
 ## [2.0.0] - 2022-01-07
 
 - Update package namespace
